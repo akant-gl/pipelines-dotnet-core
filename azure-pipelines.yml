@@ -1,3 +1,5 @@
+
+
 # ASP.NET Core
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
@@ -12,6 +14,17 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+stages:
+- stage: build
+  jobs:
+  - job: job1
+    steps:
+    - script: echo "hello world in job1"
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: 'echo "script2 in job1"'
+  - job: job2
+    steps:
+    - script: echo "hello world from job2"
+    - script: echo "hello world from step2, job 2"
